@@ -7,6 +7,7 @@ Ball::Ball(Bat &racket)
     : x(1000), y(1000), speedX(5), speedY(5), radius(15), racket(racket)
 {
 }
+
 void Ball::Update()
 {
     x += speedX;
@@ -19,7 +20,8 @@ void Ball::Update()
     if (CheckCollisionCircleRec(ballposition, radius, rect))
     {
         speedX *= -1.05;
-        speedY *= -1.05;
+        // Positive value, otherwise it always reverses the direction the ball goes
+        speedY *= 1.05;
         std::cout << "hit the thing";
     }
 

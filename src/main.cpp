@@ -11,19 +11,24 @@ int main()
 
     const Color darkGreen = {20, 160, 133, 255};
 
-    Bat bat;
-    Ball ball(bat);
+    PlayerBat player;
+    EnemyBat enemy;
+    Ball ball(player);
 
     SetTargetFPS(60);
 
     while (!WindowShouldClose())
     {
-        bat.Update();
+        // bat.Update();
+        player.Update();
+        enemy.Update();
         ball.Update();
 
         BeginDrawing();
         ClearBackground(darkGreen);
-        bat.Draw();
+        // bat.Draw();
+        player.Draw();
+        enemy.Draw();
         ball.Draw();
         EndDrawing();
     }

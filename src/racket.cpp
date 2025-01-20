@@ -1,31 +1,69 @@
 #include <raylib.h>
 #include "racket.h"
+#include <iostream>
 
 Bat::Bat()
-    : y(200), x(50), posY(0), posX(0), speedY(10)
 {
-    posY = GetScreenHeight() / 2;
+    b_properties.y = 200;
+    b_properties.x = 50;
+    b_properties.posY = GetScreenHeight() / 2;
+    b_properties.posX = 0;
+    b_properties.speedY = 10;
 }
 
-void Bat::Update()
+PlayerBat::PlayerBat()
+{
+}
+
+void PlayerBat::Update()
 {
     if (IsKeyDown(KEY_W))
     {
-        posY -= speedY;
+        b_properties.posY -= b_properties.speedY;
     }
     else if (IsKeyDown(KEY_S))
     {
-        posY += speedY;
+        b_properties.posY += b_properties.speedY;
     }
 }
 
-void Bat::Draw() const
+Rectangle PlayerBat::GetRectangle()
 {
-    DrawRectangle(posX, posY, x, y, RED);
+    std::cout << "Player bat rectangle properties: "
+              << "posX=" << b_properties.posX
+              << ", posY=" << b_properties.posY
+              << std::endl;
+
+    return {b_properties.posX, b_properties.posY, b_properties.x, b_properties.y};
 }
 
-Rectangle Bat::GetRectangle() const
+void PlayerBat::Draw() const
 {
-    Rectangle rect = {posX, posY, x, y};
-    return rect;
+    DrawRectangle(b_properties.posX, b_properties.posY, b_properties.x, b_properties.y, RED);
+}
+
+// ENEMY AI CODE GOES HERE
+EnemyBat::EnemyBat()
+{
+    b_properties.posX = 800;
+}
+
+void EnemyBat::Update()
+{
+    // Follow ball position, implement later
+}
+
+void EnemyBat::Draw() const
+{
+    DrawRectangle(b_properties.posX, b_properties.posY, b_properties.x, b_properties.y, RED);
+}
+
+Rectangle EnemyBat::GetRectangle()
+{
+    std::cout << "Enemy bat rectangle properties: "
+              << "posX=" << b_properties.posX
+              << ", posY=" << b_properties.posY
+              << std::endl;
+
+    return {b_properties.posX, b_properties.posY, b_properties.x, b_properties.y};
 }
