@@ -3,8 +3,9 @@
 #include <raylib.h>
 #include <iostream>
 
-Ball::Ball(Bat &racket)
-    : x(1000), y(1000), speedX(5), speedY(5), radius(15), racket(racket)
+Ball::Ball(Rectangle (&rects)[2])
+    : ballPosition{1000, 1000}, rects(&rects),
+      x(1000), y(1000), speedX(5), speedY(5), radius(15)
 {
 }
 
@@ -12,17 +13,20 @@ void Ball::Update()
 {
     x += speedX;
     y += speedY;
-    Vector2 ballposition = {x, y};
-    Rectangle rect = racket.GetRectangle();
+
+    ballPosition = {x, y};
     const int screenWidth = GetScreenWidth();
     const int screenHeight = GetScreenHeight();
 
-    if (CheckCollisionCircleRec(ballposition, radius, rect))
+    for (auto &&rect : *rects)
     {
-        speedX *= -1.05;
-        // Positive value, otherwise it always reverses the direction the ball goes
-        speedY *= 1.05;
-        std::cout << "hit the thing";
+        if (CheckCollisionCircleRec(ballPosition, radius, rect))
+        {
+            speedX *= -1.05;
+            // Positive value, otherwise it always reverses the direction the ball goes
+            speedY *= 1.05;
+            std::cout << "hit the thing";
+        }
     }
 
     // Makes it bounce on the screen sides by reverting the x/y location

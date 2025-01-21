@@ -36,7 +36,7 @@ class EnemyBat : public Bat
 {
 public:
     EnemyBat();
-    void Update() override;
+    void Update(Vector2);
     void Draw() const override;
     Rectangle GetRectangle() override;
 };
