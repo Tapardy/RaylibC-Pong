@@ -5,7 +5,7 @@
 
 Ball::Ball(Rectangle (&rects)[2])
     : ballPosition{1000, 1000}, rects(&rects),
-      x(1000), y(1000), speedX(5), speedY(5), radius(15)
+      x(GetScreenWidth() / 2), y(GetScreenHeight() / 2), speedX(GetRandomValue(0, 1) ? 5 : -5), speedY(5), radius(15)
 {
 }
 
@@ -32,7 +32,27 @@ void Ball::Update()
     // Makes it bounce on the screen sides by reverting the x/y location
     if ((x + radius >= screenWidth) || (x - radius <= 0))
     {
-        speedX *= -1;
+        if (x + radius >= screenWidth)
+        {
+            if (onSideHit)
+                onSideHit(false);
+
+            // Spawn ball in the middle again
+            x = screenWidth / 2;
+            y = screenHeight / 2;
+            speedX = (rand() % 2 == 0) ? 5 : -5;
+            speedY = 5;
+        }
+        if (x - radius <= 0)
+        {
+            if (onSideHit)
+                onSideHit(true);
+
+            x = screenWidth / 2;
+            y = screenHeight / 2;
+            speedX = (rand() % 2 == 0) ? 5 : -5;
+            speedY = 5;
+        }
     }
 
     if ((y + radius >= screenHeight) || (y - radius <= 0))

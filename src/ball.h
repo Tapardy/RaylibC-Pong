@@ -5,6 +5,8 @@ class Ball
 {
 public:
     Ball(Rectangle (&rects)[2]);
+    typedef void (*SideHitCallback)(bool);
+    SideHitCallback onSideHit = nullptr;
     void Update();
     void Draw() const;
     Vector2 ballPosition;
